@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require("webpack");
 const path = require("path")
+const proxy = require('http-proxy-middleware')
 
 module.exports = {
     entry: "./app/index.js",
@@ -21,12 +22,6 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
-        proxy: {
-            '/api/register': {
-                target: 'http://z005.kmtongji.com',
-                secure: false
-            }
-        },
         historyApiFallback: true,
         inline: true,
         hot: true

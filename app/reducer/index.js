@@ -1,27 +1,34 @@
 import {combineReducers} from 'redux'
-import {REGISTERED_SUCCESS,REGISTERED_ERROR,LOGIN_SUCCESS,LOGIN_ERROR} from '../action'
+import {SUCCESS, REGISTERED_ERROR, LOGIN_ERROR, USERINFO} from '../action'
 import {routerReducer} from 'react-router-redux'
-let initialState = {state:true};
+let initialState = {state:true, message: ''};
 
-function register(state = initialState , action) {
+function login(state = initialState , action) {
     switch(action.type) {
-        case REGISTERED_SUCCESS:
-            return state
+        case SUCCESS:
+            return action.data
         case REGISTERED_ERROR:
+            return action.data
+        case LOGIN_ERROR:
             return action.data
         default:
             return state    
     }
 }
-function login(state = initialState, action) {
+
+let initialUserInfo = {};
+
+function user(state = initialUserInfo, action) {
     switch(action.type) {
+        case USERINFO: 
+            return action.data
         default:
             return state
     }
 }
 const todoApp = combineReducers({
-    register,
     login,
+    user,
     routing: routerReducer
 })
 

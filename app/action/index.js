@@ -1,31 +1,51 @@
 import * as fetchTodo from '../fetch'
 import {push} from 'react-router-redux'
 
-export const REGISTERED = "REGISTERED"
-export const REGISTERED_SUCCESS = "REGISTERED_SUCCESS"
 export const REGISTERED_ERROR = "REGISTERED_ERROR"
-export const LOGIN = "LOGIN"
-export const LOGIN_SUCCESS = "LOGIN_SUCCESS"
+export const SUCCESS = "SUCCESS"
 export const LOGIN_ERROR = "LOGIN_ERROR"
 
-export function registered(url, params) {
+export const USERINFO = "USERINFO"
+
+export function login(url, params) {
     return (dispatch) => {
         fetchTodo.post(url, params)
         .then(result => {
-            console.log(result)
-            dispatch(push('/index'))
+            return result.json();
+        }).then(json => {
+            if(!!json.user) {
+                dispatch({
+                    type: 'USERINFO',
+                    data: {
+                        username: json.user.username,
+                        nick: json.user.nick
+                    }
+                })
+                dispatch({
+                    type: 'SUCCESS',
+                    data: {
+                        state: true,
+                        message: ""
+                    }
+                })
+                dispatch(push('/index'))
+            }else if(!!json.err) {
+                dispatch({
+                    type: 'LOGIN_ERROR',
+                    data: {state: false, message: json.err.message}
+                })
+            }else if(!!json.message) {
+                dispatch({
+                    type: 'REGISTERED_ERROR',
+                    data: {state: false, message: json.message}
+                })
+            }
         })
         .catch(err => {
             dispatch({
-                type: 'REGISTERED_ERROR',
-                data: {state: false}
+                type: 'LOGIN_ERROR',
+                data: {state: false, message: '请求失败'}
             })
         })
     }
-}
-export function login(url, params) {
-    console.log(fetchTodo)
-    // return (dispatch) => {
-        
-    // }
 }
