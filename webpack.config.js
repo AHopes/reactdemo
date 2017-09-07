@@ -21,6 +21,12 @@ module.exports = {
         new webpack.HotModuleReplacementPlugin()
     ],
     devServer: {
+        proxy: {
+            '/api/register': {
+                target: 'http://z005.kmtongji.com',
+                secure: false
+            }
+        },
         historyApiFallback: true,
         inline: true,
         hot: true

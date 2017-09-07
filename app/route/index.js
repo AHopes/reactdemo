@@ -1,26 +1,19 @@
 import React from 'react'
-import {BrowserRouter, Route, IndexRoute} from 'react-router-dom'
+import {Router, Route, IndexRoute} from 'react-router'
 
-import Home from '../home'
-import Second from '../second'
-import Third from '../third'
+import Frame from '../container/frame'
+import Login from '../container/login'
+import Homepage from '../container/homepage'
 
-class RouteMap extends React.Component {
-    constructor(props) {
-        super(props)
-    }
-    render() {
-        return (
+const RouteMap = browserHistory => (
+    <Router history={browserHistory}>
+        <Route path="/" component={Frame}>
+            <IndexRoute component={Login} />
+            <Route path="/login" component={Login}></Route>
+            <Route path="/index" component={Homepage}></Route>
+        </Route>
+    </Router>
+)
             
-            <BrowserRouter>
-                <div>
-                    <Route path="/home" component={Home}></Route>
-                    <Route path="/second" component={Second}></Route>
-                    <Route path="/third" component={Third}></Route>
-                </div>
-            </BrowserRouter>
-        )
-    }
-}
 
 export default RouteMap
